@@ -443,7 +443,7 @@ var TEAM_MEMBERS_WITH_SCHEME_SELECT_QUERY = `
 	SELECT
 		TeamMembers.*,
 		TeamScheme.DefaultTeamUserRole TeamSchemeDefaultUserRole,
-        TeamScheme.DefaultTeamAdminRole TeamSchemeDefaultAdminRole,
+		TeamScheme.DefaultTeamAdminRole TeamSchemeDefaultAdminRole,
 		AdminRole.Name AdminRoleName,
 		UserRole.Name UserRoleName
 	FROM 
