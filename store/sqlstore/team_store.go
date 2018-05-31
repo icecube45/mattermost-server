@@ -51,6 +51,8 @@ type teamMemberWithSchemeRoles struct {
 	SchemeAdmin                sql.NullBool
 	TeamSchemeDefaultUserRole  sql.NullString
 	TeamSchemeDefaultAdminRole sql.NullString
+	AdminRoleName              sql.NullString
+	UserRoleName               sql.NullString
 }
 
 type teamMemberWithSchemeRolesList []teamMemberWithSchemeRoles
@@ -86,14 +88,14 @@ func (db teamMemberWithSchemeRoles) ToModel() *model.TeamMember {
 	var schemeImpliedRoles []string
 	if db.SchemeUser.Valid && db.SchemeUser.Bool {
 		if db.TeamSchemeDefaultUserRole.Valid && db.TeamSchemeDefaultUserRole.String != "" {
-			schemeImpliedRoles = append(schemeImpliedRoles, db.TeamSchemeDefaultUserRole.String)
+			schemeImpliedRoles = append(schemeImpliedRoles, db.UserRoleName.String)
 		} else {
 			schemeImpliedRoles = append(schemeImpliedRoles, model.TEAM_USER_ROLE_ID)
 		}
 	}
 	if db.SchemeAdmin.Valid && db.SchemeAdmin.Bool {
 		if db.TeamSchemeDefaultAdminRole.Valid && db.TeamSchemeDefaultAdminRole.String != "" {
-			schemeImpliedRoles = append(schemeImpliedRoles, db.TeamSchemeDefaultAdminRole.String)
+			schemeImpliedRoles = append(schemeImpliedRoles, db.AdminRoleName.String)
 		} else {
 			schemeImpliedRoles = append(schemeImpliedRoles, model.TEAM_ADMIN_ROLE_ID)
 		}
@@ -440,14 +442,20 @@ func (s SqlTeamStore) AnalyticsTeamCount() store.StoreChannel {
 var TEAM_MEMBERS_WITH_SCHEME_SELECT_QUERY = `
 	SELECT
 		TeamMembers.*,
-		TeamScheme.DefaultChannelUserRole TeamSchemeDefaultUserRole,
-		TeamScheme.DefaultChannelAdminRole TeamSchemeDefaultAdminRole
+		TeamScheme.DefaultTeamUserRole TeamSchemeDefaultUserRole,
+        TeamScheme.DefaultTeamAdminRole TeamSchemeDefaultAdminRole,
+		AdminRole.Name AdminRoleName,
+		UserRole.Name UserRoleName
 	FROM 
 		TeamMembers
 	LEFT JOIN
 		Teams ON TeamMembers.TeamId = Teams.Id
 	LEFT JOIN
-		Schemes TeamScheme ON Teams.SchemeId = TeamScheme.Id 
+		Schemes TeamScheme ON Teams.SchemeId = TeamScheme.Id
+	LEFT JOIN
+		Roles AdminRole ON TeamScheme.DefaultTeamAdminRole = AdminRole.Id
+	LEFT JOIN
+		Roles UserRole ON TeamScheme.DefaultTeamUserRole = UserRole.Id
 `
 
 func (s SqlTeamStore) SaveMember(member *model.TeamMember, maxUsersPerTeam int) store.StoreChannel {
