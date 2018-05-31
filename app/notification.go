@@ -1004,42 +1004,30 @@ func GetExplicitMentions(message string, keywords map[string][]string) *Explicit
 				continue
 			}
 
+			word = strings.TrimLeft(word, ":.-_")
+
 			if checkForMention(word) {
 				continue
 			}
 
-			// remove trailing '.', as that is the end of a sentence
-			foundWithSuffix := false
-			for _, suffixPunctuation := range []string{".", ":"} {
-				for strings.HasSuffix(word, suffixPunctuation) {
-					word = strings.TrimSuffix(word, suffixPunctuation)
-					if checkForMention(word) {
-						foundWithSuffix = true
-						break
-					}
+			foundWithoutSuffix := false
+
+			wordWithoutSuffix := word
+			for strings.LastIndexAny(wordWithoutSuffix, ".-:_") != -1 {
+				wordWithoutSuffix = wordWithoutSuffix[0 : len(wordWithoutSuffix)-1]
+
+				if checkForMention(wordWithoutSuffix) {
+					foundWithoutSuffix = true
+					break
 				}
 			}
 
-			if foundWithSuffix {
+			if foundWithoutSuffix {
 				continue
 			}
 
 			if _, ok := systemMentions[word]; !ok && strings.HasPrefix(word, "@") {
 				ret.OtherPotentialMentions = append(ret.OtherPotentialMentions, word[1:])
-			} else if strings.ContainsAny(word, ".-:") {
-				// This word contains a character that may be the end of a sentence, so split further
-				splitWords := strings.FieldsFunc(word, func(c rune) bool {
-					return c == '.' || c == '-' || c == ':'
-				})
-
-				for _, splitWord := range splitWords {
-					if checkForMention(splitWord) {
-						continue
-					}
-					if _, ok := systemMentions[splitWord]; !ok && strings.HasPrefix(splitWord, "@") {
-						ret.OtherPotentialMentions = append(ret.OtherPotentialMentions, splitWord[1:])
-					}
-				}
 			}
 		}
 	}
