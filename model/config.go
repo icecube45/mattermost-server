@@ -1024,8 +1024,8 @@ type TeamSettings struct {
 	EnableConfirmNotificationsToChannel *bool
 	TeammateNameDisplay                 *string
 	ExperimentalEnableAutomaticReplies  *bool
-	ExperimentalHideTownSquareinLHS     *bool
-	ExperimentalTownSquareIsReadOnly    *bool
+	ExperimentalHidegeneralinLHS     *bool
+	ExperimentalgeneralIsReadOnly    *bool
 	ExperimentalPrimaryTeam             *string
 }
 
@@ -1127,12 +1127,12 @@ func (s *TeamSettings) SetDefaults() {
 		s.ExperimentalEnableAutomaticReplies = NewBool(false)
 	}
 
-	if s.ExperimentalHideTownSquareinLHS == nil {
-		s.ExperimentalHideTownSquareinLHS = NewBool(false)
+	if s.ExperimentalHidegeneralinLHS == nil {
+		s.ExperimentalHidegeneralinLHS = NewBool(false)
 	}
 
-	if s.ExperimentalTownSquareIsReadOnly == nil {
-		s.ExperimentalTownSquareIsReadOnly = NewBool(false)
+	if s.ExperimentalgeneralIsReadOnly == nil {
+		s.ExperimentalgeneralIsReadOnly = NewBool(false)
 	}
 
 	if s.ExperimentalPrimaryTeam == nil {

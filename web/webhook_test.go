@@ -98,11 +98,11 @@ func TestIncomingWebhook(t *testing.T) {
 	})
 
 	t.Run("WebhookExperimentReadOnly", func(t *testing.T) {
-		th.App.UpdateConfig(func(cfg *model.Config) { *cfg.TeamSettings.ExperimentalTownSquareIsReadOnly = false })
+		th.App.UpdateConfig(func(cfg *model.Config) { *cfg.TeamSettings.ExperimentalgeneralIsReadOnly = false })
 		_, err := http.Post(url, "application/json", strings.NewReader(fmt.Sprintf("{\"text\":\"this is a test\", \"channel\":\"%s\"}", model.DEFAULT_CHANNEL)))
 		assert.Nil(t, err, "Not read only")
 
-		th.App.UpdateConfig(func(cfg *model.Config) { *cfg.TeamSettings.ExperimentalTownSquareIsReadOnly = true })
+		th.App.UpdateConfig(func(cfg *model.Config) { *cfg.TeamSettings.ExperimentalgeneralIsReadOnly = true })
 		th.App.SetLicense(model.NewTestLicense())
 	})
 

@@ -557,8 +557,8 @@ func GenerateClientConfig(c *model.Config, diagnosticId string, license *model.L
 	props["RunJobs"] = strconv.FormatBool(*c.JobSettings.RunJobs)
 
 	// Set default values for all options that require a license.
-	props["ExperimentalHideTownSquareinLHS"] = "false"
-	props["ExperimentalTownSquareIsReadOnly"] = "false"
+	props["ExperimentalHidegeneralinLHS"] = "false"
+	props["ExperimentalgeneralIsReadOnly"] = "false"
 	props["ExperimentalEnableAuthenticationTransfer"] = "true"
 	props["EnableCustomBrand"] = "false"
 	props["CustomBrandText"] = ""
@@ -614,8 +614,8 @@ func GenerateClientConfig(c *model.Config, diagnosticId string, license *model.L
 	props["CustomUrlSchemes"] = strings.Join(*c.DisplaySettings.CustomUrlSchemes, ",")
 
 	if license != nil {
-		props["ExperimentalHideTownSquareinLHS"] = strconv.FormatBool(*c.TeamSettings.ExperimentalHideTownSquareinLHS)
-		props["ExperimentalTownSquareIsReadOnly"] = strconv.FormatBool(*c.TeamSettings.ExperimentalTownSquareIsReadOnly)
+		props["ExperimentalHidegeneralinLHS"] = strconv.FormatBool(*c.TeamSettings.ExperimentalHidegeneralinLHS)
+		props["ExperimentalgeneralIsReadOnly"] = strconv.FormatBool(*c.TeamSettings.ExperimentalgeneralIsReadOnly)
 		props["ExperimentalEnableAuthenticationTransfer"] = strconv.FormatBool(*c.ServiceSettings.ExperimentalEnableAuthenticationTransfer)
 
 		if *license.Features.CustomBrand {

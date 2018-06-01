@@ -1868,10 +1868,10 @@ func TestAutocompleteChannels(t *testing.T) {
 		expectedExcludes []string
 	}{
 		{
-			"Basic town-square",
+			"Basic general",
 			th.BasicTeam.Id,
 			"town",
-			[]string{"town-square"},
+			[]string{"general"},
 			[]string{"off-topic", "town"},
 		},
 		{
@@ -1879,13 +1879,13 @@ func TestAutocompleteChannels(t *testing.T) {
 			th.BasicTeam.Id,
 			"off-to",
 			[]string{"off-topic"},
-			[]string{"town-square", "town"},
+			[]string{"general", "town"},
 		},
 		{
 			"Basic town square and off topic",
 			th.BasicTeam.Id,
 			"to",
-			[]string{"off-topic", "town-square"},
+			[]string{"off-topic", "general"},
 			[]string{"town"},
 		},
 	} {

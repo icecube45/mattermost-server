@@ -1864,8 +1864,8 @@ func testChannelStoreSearchInTeam(t *testing.T, ss store.Store) {
 
 	o9 := model.Channel{}
 	o9.TeamId = o1.TeamId
-	o9.DisplayName = "Town Square"
-	o9.Name = "town-square"
+	o9.DisplayName = "general"
+	o9.Name = "general"
 	o9.Type = model.CHANNEL_OPEN
 	store.Must(ss.Channel().Save(&o9, -1))
 
